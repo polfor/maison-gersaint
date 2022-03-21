@@ -1,8 +1,4 @@
-$(window).on("load", function () {
-    Webflow.validClick = function () {
-        return true;
-    };
-});
+
 
 $(".content.flex--vertical.project--padding").css("display", "none");
 
@@ -23,16 +19,11 @@ $("#studioNav").click(function () {
     $("#studioTitle").click();
 });
 
+$('.section.is--home-section').css('overflow', 'hidden');
 
 
 
 
-$(".sommaire--title").click(function () {
-    let parent = $(this).parent()[0];
-    window.setTimeout(function () {
-        parent.scrollIntoView();
-    }, 100);
-});
 
 $(".hidden-link").each(function () {
     let project = {
@@ -325,7 +316,6 @@ resizeObserver.observe(document.getElementById("firstSlideDiv"));
 
 $(".p-index").each(function () {
     let index = $(this).parent().parent().index();
-    console.log(index);
     if (index + 1 >= 10) {
         if (index + 1 >= 100) {
             $(this).text(`0${index + 1}`);
@@ -353,3 +343,50 @@ function checkDisabled() {
         $("#mobNextProject").prop("disabled", false);
     }
 }
+
+$('.services__title').click(function () {
+    let clickedIndex = $('.services__title').index($(this));
+    if ($(this).hasClass('is--selected')) {
+        $(this).removeClass('is--selected');
+        $('.service__wrapper').eq(clickedIndex).removeClass('is--open');
+    }
+    else {
+        $('.services__title.is--selected').click();
+        $('.services__title').eq(clickedIndex).addClass('is--selected');
+        $('.service__wrapper').eq(clickedIndex).addClass('is--open');
+    }
+});
+
+
+
+$('.sticky--container.is--services').click(function () {
+    $('.services__title.is--selected').click();
+});
+
+$('.title-sticky').click(function () {
+    let elem = $(this);
+    if ($(this).hasClass('is--opened')) {
+        $(this).closest('.section.is--home-section').css('overflow', 'hidden');
+        $(this).removeClass('is--opened');
+    }
+    else {
+        $(this).closest('.section.is--home-section').css('overflow', 'visible');
+        $('.title-sticky.is--opened').click();
+        $(this).addClass('is--opened');
+        if ($(window).width() > 991) {
+            window.setTimeout(function () {
+                elem.closest('.section')[0].scrollIntoView({ behavior: "smooth" });
+            }, 500);
+        }
+    }
+
+});
+
+$('.mobile-service').click(function () {
+    let clickedIndex = $('.mobile-service').index($(this));
+    $('.services__title').eq(clickedIndex).click();
+});
+
+$('.sticky--container.section--closer').click(function () {
+    $(this).closest('.section').find('.title-sticky').click();
+})
